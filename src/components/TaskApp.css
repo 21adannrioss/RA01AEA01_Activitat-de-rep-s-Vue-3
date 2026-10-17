@@ -1,0 +1,46 @@
+.gestor {
+  text-align: center;
+  font-family: sans-serif;
+  margin: 2rem auto;
+}
+
+.formulario input[type='text'] {
+  padding: 0.3rem;
+  margin-right: 0.5rem;
+}
+
+.aviso {
+  color: red;
+}
+
+.filtro {
+  display: block;
+  margin: 1rem 0;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+}
+
+.lista li {
+  margin: 0.3rem 0;
+}
+
+.lista button {
+  margin-left: 0.4rem;
+}
+
+.tachada {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.fecha {
+  color: gray;
+  margin-left: 0.3rem;
+}
+
+.vacio {
+  color: gray;
+}
