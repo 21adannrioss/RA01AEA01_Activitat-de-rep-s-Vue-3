@@ -3,23 +3,23 @@ import { ref, computed } from 'vue'
 
 // Datos reactivos del componente
 const listaTareas = ref([
-  {id: 1, titulo: 'Tasca 1', completada: true, fechaCreacion: '17/10/2026'},
-  {id: 2, titulo: 'Tasca 2', completada: false, fechaCreacion: '17/10/2026'},
-  {id: 3, titulo: 'Tasca 3', completada: false, fechaCreacion: '17/10/2026'},
-  {id: 4, titulo: 'Tasca 4', completada: false, fechaCreacion: '17/10/2026'},
+  {id: 1, titulo: 'Lavar o guardar los platos', completada: true, fechaCreacion: '17/10/2026'},
+  {id: 2, titulo: 'Sacar la basura', completada: false, fechaCreacion: '17/10/2026'},
+  {id: 3, titulo: 'Hacer la cama', completada: true, fechaCreacion: '17/10/2026'},
+  {id: 4, titulo: 'Responder un correo', completada: false, fechaCreacion: '17/10/2026'}
 ])
 
-// Texto que el usuario escribe en el input (v-model)
+// Texto que el usuario escribe en el input con v-model
 const textoNuevaTarea = ref('')
 
-// Casilla "Mostra només pendents" (v-model)
+// Casilla "Mostra només pendents" con v-model
 const soloPendientes = ref(false)
 
-// Para mostrar un aviso si intenta añadir una tarea vacía (v-show)
+// Para mostrar un aviso si intenta añadir una tarea vacía con v-show
 const mostrarAviso = ref(false)
 
 // Contador para dar un id distinto a cada tarea nueva
-let siguienteId = 5
+let siguienteId = listaTareas.value.length + 1
 
 
 // Propiedades computed
@@ -51,12 +51,7 @@ function agregarTarea() {
     return
   }
 
-  listaTareas.value.push({
-    id: siguienteId,
-    titulo: titulo,
-    completada: false,
-    fechaCreacion: new Date().toLocaleDateString('ca-ES'),
-  })
+  listaTareas.value.push({id: siguienteId, titulo: titulo, completada: false, fechaCreacion: new Date().toLocaleDateString('ca-ES')})
 
   siguienteId++
   textoNuevaTarea.value = ''
@@ -80,16 +75,11 @@ function eliminarTarea(idTarea) {
 
     <!-- Input para escribir y el botón para añadir -->
     <div class="formulario">
-      <input
-        v-model="textoNuevaTarea"
-        type="text"
-        placeholder="Escriu una nova tasca"
-        @keyup.enter="agregarTarea"
-      />
+      <input v-model="textoNuevaTarea" type="text" placeholder="Escriu una nova tasca"/>
       <button @click="agregarTarea">Afegir</button>
     </div>
 
-    <!-- Solo se oculta/muestra con v-show -->
+    <!-- Solo se oculta y se muestra con v-show -->
     <p v-show="mostrarAviso" class="aviso">Has d'escriure un títol per a la tasca</p>
 
     <!-- Filtro de pendientes -->
@@ -98,21 +88,22 @@ function eliminarTarea(idTarea) {
       Mostra només pendents
     </label>
 
-    <!-- Si hay tareas las pintamos, si no sale un mensaje -->
+    <!-- Si hay tareas o no -->
     <ul v-if="tareasVisibles.length > 0" class="lista">
       <li v-for="tarea in tareasVisibles" :key="tarea.id">
+        <!-- Aplicar filtro para tachar -->
         <span :class="{tachada: tarea.completada}">{{tarea.titulo}}</span>
-        <small class="fecha">({{tarea.fechaCreacion}})</small>
+        <span class="fecha">({{tarea.fechaCreacion}})</span>
 
         <button @click="cambiarEstado(tarea)">
-          {{tarea.completada? 'Desmarcar': 'Completar'}}
+          <span v-if="tarea.completada">Desmarcar</span>
+          <span v-else>Completar</span>
         </button>
         <button @click="eliminarTarea(tarea.id)" title="Eliminar tasca">🗑️</button>
       </li>
     </ul>
     <p v-else class="vacio">No hi ha tasques per mostrar</p>
 
-    <!-- Resumen -->
     <p class="resumen">Total: {{totalTareas}} | Pendents: {{totalPendientes}}</p>
   </div>
 </template>

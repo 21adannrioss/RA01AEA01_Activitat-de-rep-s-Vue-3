@@ -1,5 +1,5 @@
 <script setup>
-// Importar el componente TaskApp
+// Importación del componente TaskApp
 import TaskApp from './components/TaskApp.vue'
 </script>
 <template>
